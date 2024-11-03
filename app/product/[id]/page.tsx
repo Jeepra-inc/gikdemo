@@ -1,7 +1,7 @@
 // app/product/[id]/page.tsx
 'use client';
 
-import { fetchProductById } from '../../../lib/woocommerce';
+import { fetchProductById } from '@/lib/woocommerce';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -14,7 +14,8 @@ interface Product {
 	images: { src: string; alt?: string }[];
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default async function ProductPage(props: { params: { id: string } }) {
+	const { params } = props;
 	const router = useRouter();
 	const [product, setProduct] = useState<Product | null>(null);
 
