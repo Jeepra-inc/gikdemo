@@ -14,15 +14,17 @@ interface Product {
 	images: { src: string; alt?: string }[];
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage(props: {
+	params: Promise<{ id: string }>;
+}) {
 	const router = useRouter();
 	const [product, setProduct] = useState<Product | null>(null);
 
 	useEffect(() => {
-		// Fetch the product when the component mounts
 		async function loadProduct() {
 			try {
-				const fetchedProduct = await fetchProductById(params.id);
+				const resolvedParams = await props.params; // Await params
+				const fetchedProduct = await fetchProductById(resolvedParams.id);
 				setProduct(fetchedProduct);
 			} catch (error) {
 				console.error('Error fetching product:', error);
@@ -31,7 +33,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 		}
 
 		loadProduct();
-	}, [params.id, router]);
+	}, [props.params, router]);
 
 	if (!product) {
 		return <p>Loading...</p>;
