@@ -1,13 +1,21 @@
 // app/product/page.tsx
 import { fetchProducts } from '../../lib/woocommerce';
 
+interface Product {
+	id: number;
+	name: string;
+	price: string;
+	images: { src: string; alt?: string }[];
+}
+
 export default async function HomePage() {
-	const products = await fetchProducts();
+	const products: Product[] = await fetchProducts();
+
 	return (
 		<div>
 			<h1>Products</h1>
 			<ul>
-				{products.map((product) => (
+				{products.map((product: Product) => (
 					<li key={product.id}>
 						<a href={`/product/${product.id}`}>
 							{/* Display the featured image if available */}

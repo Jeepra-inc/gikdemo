@@ -6,11 +6,26 @@ import { fetchProductById } from '../../../lib/woocommerce';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function ProductPage({ params: paramsPromise }) {
+interface Params {
+	id: string;
+}
+
+interface Product {
+	id: number;
+	name: string;
+	price: string;
+	// Add other properties as needed
+}
+
+export default function ProductPage({
+	params: paramsPromise,
+}: {
+	params: Promise<Params>;
+}) {
 	const { addToCart } = useCart();
 	const router = useRouter();
-	const [product, setProduct] = useState(null);
-	const [params, setParams] = useState(null);
+	const [product, setProduct] = useState<Product | null>(null);
+	const [params, setParams] = useState<Params | null>(null);
 
 	useEffect(() => {
 		async function loadParams() {
