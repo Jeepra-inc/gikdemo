@@ -1,14 +1,13 @@
 // app/posts/[slug]/page.tsx
 import { fetchPostBySlug } from '../../../lib/wordpress';
 
-interface Params {
-	params: {
-		slug: string;
-	};
-}
-
-export default async function PostPage({ params }: Params) {
-	const post = await fetchPostBySlug(params.slug); // Fetch post by slug
+export default async function PostPage({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}) {
+	const { slug } = await params; // Await the resolved params to access slug
+	const post = await fetchPostBySlug(slug); // Fetch post by slug
 
 	// If no post is found, return a "Post not found" message
 	if (!post) return <p>Post not found.</p>;
@@ -18,11 +17,6 @@ export default async function PostPage({ params }: Params) {
 			<h1>{post.title.rendered}</h1>
 			<p className='border p-8'>{post.excerpt.rendered}</p>
 			<div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
-
-			{/* Debugging JSON output, if needed */}
-			{/* <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-        {JSON.stringify(post, null, 2)}
-      </pre> */}
 		</>
 	);
 }
