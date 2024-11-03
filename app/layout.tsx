@@ -2,13 +2,18 @@
 import './globals.css';
 import { CartProvider } from '../context/CartContext';
 import Navbar from '../components/Navbar';
+import { ReactNode } from 'react';
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+	children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang='en'>
 			<body>
 				<CartProvider>
-					<Navbar /> {/* Navbar will appear on all pages */}
+					<Navbar />
 					{children}
 				</CartProvider>
 			</body>

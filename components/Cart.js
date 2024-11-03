@@ -1,5 +1,6 @@
 // components/Cart.js
 import { useCart } from '../context/CartContext';
+import Image from 'next/image';
 
 export default function Cart() {
 	const { cart, removeFromCart } = useCart();
@@ -20,10 +21,11 @@ export default function Cart() {
 								<h3>{item.name}</h3>
 								<p>Price: {item.price} €</p>
 								{item.images && item.images.length > 0 && (
-									<img
+									<Image
 										src={item.images[0].src}
 										alt={item.name}
-										style={{ width: '100px', height: 'auto' }}
+										width={100}
+										height={100}
 									/>
 								)}
 								<button onClick={() => removeFromCart(item.id)}>
